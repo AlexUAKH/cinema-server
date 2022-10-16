@@ -21,8 +21,9 @@ export class MovieService {
   async findAll(query: ISearchQuery) {
     const filter = {};
     if (query.movie_id) filter['_id'] = query.movie_id;
-    if (query.genres) filter['genres'] = Number(query.genres);
+    if (query.genres) filter['genre'] = Number(query.genres);
     if (query.name) filter['name'] = { $regex: query.name, $options: 'si' };
+    console.log('fi: ', filter);
 
     return await this.movieModel.find(filter);
   }
