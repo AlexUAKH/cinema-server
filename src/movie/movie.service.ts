@@ -18,11 +18,16 @@ export class MovieService {
   }
 
   async findAll(query: ISearchQuery) {
-    return await this.movieModel.find({});
+    const filter = {};
+    if (query.movie_id) filter['_id'] = query.movie_id;
+    if (query.genres) filter['genres'] = query.genres;
+    if (query.name) filter['name'] = { $regex: query.name, $options: 'si' };
+
+    return await this.movieModel.find(filter);
   }
 
-  findOne(id: ObjectId) {
-    return `This action returns a #${id} ticket`;
+  async findOne(id: ObjectId) {
+    return await this.movieModel.findById(id);
   }
 
   update(id: ObjectId, dto: UpdateMovieDto) {
