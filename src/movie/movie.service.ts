@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
-import { ErrorHandler } from 'src/errors/errorHandler';
+import { ErrorHandler } from '../errors/errorHandler';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie, MovieDocument } from './entities/movie.entity';
