@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
+import { ErrorHandler } from 'src/errors/errorHandler';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie, MovieDocument } from './entities/movie.entity';
@@ -34,7 +35,12 @@ export class MovieService {
     return `This action updates a #${id} ticket`;
   }
 
-  remove(id: ObjectId) {
-    return `This action removes a #${id} ticket`;
+  async remove(id: ObjectId) {
+    const recipient = await this.movieModel.findById(id);
+
+    if (!recipient)
+      ErrorHandler.notFound('The record with given id does not exist');
+
+    return await this.movieModel.findByIdAndDelete(id);
   }
 }
