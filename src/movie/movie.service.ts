@@ -23,7 +23,6 @@ export class MovieService {
     if (query.movie_id) filter['_id'] = query.movie_id;
     if (query.genres) filter['genre'] = Number(query.genres);
     if (query.name) filter['name'] = { $regex: query.name, $options: 'si' };
-    console.log('fi: ', filter);
 
     return await this.movieModel.find(filter);
   }
@@ -37,9 +36,9 @@ export class MovieService {
   }
 
   async remove(id: ObjectId) {
-    const recipient = await this.movieModel.findById(id);
+    const movie = await this.movieModel.findById(id);
 
-    if (!recipient)
+    if (!movie)
       ErrorHandler.notFound('The record with given id does not exist');
 
     return await this.movieModel.findByIdAndDelete(id);
