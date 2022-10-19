@@ -42,7 +42,7 @@ export class TicketService {
           for (let row = 0; row < rows; row++) {
             seats[row] = [];
             for (let s = 0; s < seats_in_row; s++) {
-              seats[row][s] = false;
+              seats[row][s] = Math.random() >= 0.9 ? false : true;
             }
           }
           ind++;
@@ -116,10 +116,10 @@ export class TicketService {
 
     if (!seanse) ErrorHandler.badRequest('Something went wrong');
     const seats = JSON.parse(seanse.seats);
-    if (seats[row - 1][seat - 1])
+    if (!seats[row - 1][seat - 1])
       ErrorHandler.badRequest('This seat is not available');
 
-    seats[row - 1][seat - 1] = true;
+    seats[row - 1][seat - 1] = false;
 
     const updated = await this.ticketModel.findOneAndUpdate(filter, {
       movie_id,
